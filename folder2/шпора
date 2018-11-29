@@ -2,3 +2,87 @@ std потоки ни на, что не годятся кроме Hello word. Ю
 Работать будет в десять раз быстрее и в десять раз удобнее
 
 https://eax.me/winapi-file-mapping/
+
+
+#include <vector>
+#include <string>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+
+using namespace std;
+
+
+int main(int argc, const char * argv[])
+{
+    ifstream in("input.txt");
+    ofstream out("output.txt");
+    string s;
+    while(getline(in,s))
+    {
+        out << "text ";
+        size_t pos = s.find_first_of("-0123456789");
+        for(int i = pos, e = s.length(); i < e; ++i )
+        {
+            if (s[i] == ' ' || s[i] == ',')
+            {
+                while(s[i] == ' ' || s[i] == ',') ++i;
+                out << ' ';
+            }
+            out << s[i] ;
+        }
+        out << endl;
+    }
+}
+
+
+
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc, const char * argv[])
+{
+    FILE * in  = fopen("input.txt","rt");
+    FILE * out = fopen("output.txt","wt");
+    char buf[1024];
+    while(fgets(buf,1024,in))
+    {
+        fputs("text ",out);
+        char * s = strpbrk(buf,"-0123456789");
+        for(; *s; ++s )
+        {
+            if (*s == ' ' || *s == ',')
+            {
+                while(*s == ' ' || *s == ',') ++s;
+                fputc(' ',out);
+            }
+            fputc(*s,out);
+        }
+    }
+    fclose(out);
+    fclose(in);
+}
+
+
+
+int main(int argc, const char * argv[])
+{
+    ifstream in("input.txt");
+    ofstream out("output.txt");
+    char buf[1024];
+    while(in.getline(buf,1024))
+    {
+        out << "text ";
+        const char * s = strpbrk(buf,"-0123456789");
+        for(; *s; ++s )
+        {
+            if (*s == ' ' || *s == ',')
+            {
+                while(*s == ' ' || *s == ',') ++s;
+                out.write(" ",1);
+            }
+            out.write(s,1);
+        }
+        out.write("\n",1);
+    }
+}
