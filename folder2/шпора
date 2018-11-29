@@ -1,0 +1,4 @@
+std потоки ни на, что не годятся кроме Hello word. Юзай отображение файла в память (CreateFileMapping, MapViewOfFile). 
+Работать будет в десять раз быстрее и в десять раз удобнее
+
+https://eax.me/winapi-file-mapping/
